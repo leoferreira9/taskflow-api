@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -24,5 +26,11 @@ public class TaskController {
     public TaskDTO findById(@PathVariable Long id){
         Task task = taskService.findById(id);
         return new TaskDTO(task);
+    }
+
+    @GetMapping
+    public List<TaskDTO> findAll(){
+        List<Task> tasks = taskService.findAll();
+        return tasks.stream().map(TaskDTO::new).toList();
     }
 }
