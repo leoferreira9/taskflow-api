@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -24,5 +26,11 @@ public class UserController {
     public UserDTO findById(@PathVariable Long id){
         User user = userService.findById(id);
         return new UserDTO(user);
+    }
+
+    @GetMapping
+    public List<UserDTO> findAll(){
+        List<User> users = userService.findAll();
+        return users.stream().map(UserDTO::new).toList();
     }
 }
