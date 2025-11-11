@@ -5,6 +5,7 @@ import com.leonardo.taskflow.model.User;
 import com.leonardo.taskflow.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,5 +40,11 @@ public class UserController {
         user.setId(id);
         User entity = userService.update(user);
         return new UserDTO(entity);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id){
+        userService.delete(id);
     }
 }
