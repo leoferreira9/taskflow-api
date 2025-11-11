@@ -1,19 +1,13 @@
 package com.leonardo.taskflow.dto;
 
 import com.leonardo.taskflow.model.Role;
-import com.leonardo.taskflow.model.Task;
 import com.leonardo.taskflow.model.User;
-
-import java.util.List;
 
 public class UserDTO {
 
     private Long id;
-
     private String name;
-
     private String email;
-
     private Role role;
 
 
