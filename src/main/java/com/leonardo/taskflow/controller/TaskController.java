@@ -33,4 +33,11 @@ public class TaskController {
         List<Task> tasks = taskService.findAll();
         return tasks.stream().map(TaskDTO::new).toList();
     }
+
+    @PutMapping("/{id}")
+    public TaskDTO update(@PathVariable Long id, @RequestBody @Valid Task task){
+        task.setId(id);
+        Task entity = taskService.update(task);
+        return new TaskDTO(entity);
+    }
 }
