@@ -40,4 +40,9 @@ public class TaskController {
         Task entity = taskService.update(task);
         return new TaskDTO(entity);
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+        taskService.delete(id);
+    }
 }
