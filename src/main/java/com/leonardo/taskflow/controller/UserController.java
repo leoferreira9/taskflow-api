@@ -33,4 +33,11 @@ public class UserController {
         List<User> users = userService.findAll();
         return users.stream().map(UserDTO::new).toList();
     }
+
+    @PutMapping("/{id}")
+    public UserDTO update(@PathVariable Long id, @RequestBody @Valid User user){
+        user.setId(id);
+        User entity = userService.update(user);
+        return new UserDTO(entity);
+    }
 }
