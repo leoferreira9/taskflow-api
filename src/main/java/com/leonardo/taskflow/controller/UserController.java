@@ -5,10 +5,7 @@ import com.leonardo.taskflow.model.User;
 import com.leonardo.taskflow.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -21,5 +18,11 @@ public class UserController {
     public UserDTO create(@RequestBody @Valid User user){
         User entity =  userService.create(user);
         return new UserDTO(entity);
+    }
+
+    @GetMapping("/{id}")
+    public UserDTO findById(@PathVariable Long id){
+        User user = userService.findById(id);
+        return new UserDTO(user);
     }
 }
