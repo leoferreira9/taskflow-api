@@ -1,6 +1,7 @@
 package com.leonardo.taskflow.controller;
 
 import com.leonardo.taskflow.dto.UserDTO;
+import com.leonardo.taskflow.dto.UserUpdateDTO;
 import com.leonardo.taskflow.model.User;
 import com.leonardo.taskflow.service.UserService;
 import jakarta.validation.Valid;
@@ -40,6 +41,12 @@ public class UserController {
     public UserDTO update(@PathVariable Long id, @RequestBody @Valid User user){
         user.setId(id);
         User entity = userService.update(user);
+        return new UserDTO(entity);
+    }
+
+    @PatchMapping("/{id}")
+    public UserDTO partialUpdate(@PathVariable Long id, @RequestBody UserUpdateDTO dto){
+        User entity = userService.partialUpdate(id, dto);
         return new UserDTO(entity);
     }
 

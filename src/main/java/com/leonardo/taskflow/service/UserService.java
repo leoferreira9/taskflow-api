@@ -1,5 +1,6 @@
 package com.leonardo.taskflow.service;
 
+import com.leonardo.taskflow.dto.UserUpdateDTO;
 import com.leonardo.taskflow.exception.EntityNotFoundException;
 import com.leonardo.taskflow.model.User;
 import com.leonardo.taskflow.repository.UserRepository;
@@ -37,6 +38,18 @@ public class UserService {
         existingUser.setEmail(user.getEmail());
         existingUser.setRole(user.getRole());
         existingUser.setPassword(user.getPassword());
+
+        return userRepository.save(existingUser);
+    }
+
+    public User partialUpdate(Long id, UserUpdateDTO user){
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + id));
+
+        if(user.getName() != null) existingUser.setName(user.getName());
+        if(user.getEmail() != null) existingUser.setEmail(user.getEmail());
+        if(user.getRole() != null) existingUser.setRole(user.getRole());
+        if(user.getPassword() != null) existingUser.setPassword(user.getPassword());
 
         return userRepository.save(existingUser);
     }
