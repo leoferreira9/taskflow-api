@@ -5,6 +5,7 @@ import com.leonardo.taskflow.model.Task;
 import com.leonardo.taskflow.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public TaskDTO create(@RequestBody @Valid Task task){
         Task entity = taskService.create(task);
         return new TaskDTO(entity);
@@ -42,6 +44,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
         taskService.delete(id);
     }
