@@ -1,5 +1,6 @@
 package com.leonardo.taskflow.service;
 
+import com.leonardo.taskflow.dto.TaskUpdateDTO;
 import com.leonardo.taskflow.exception.EntityNotFoundException;
 import com.leonardo.taskflow.model.Task;
 import com.leonardo.taskflow.model.User;
@@ -47,6 +48,19 @@ public class TaskService {
         existingTask.setPriority(task.getPriority());
         existingTask.setStatus(task.getStatus());
         existingTask.setTitle(task.getTitle());
+
+        return taskRepository.save(existingTask);
+    }
+
+    public Task partialUpdate(Long id, TaskUpdateDTO dto){
+        Task existingTask = taskRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found with ID: " + id));
+
+        if(dto.getDescription() != null) existingTask.setDescription(dto.getDescription());
+        if(dto.getStatus() != null) existingTask.setStatus(dto.getStatus());
+        if(dto.getPriority() != null) existingTask.setPriority(dto.getPriority());
+        if(dto.getDueDate() != null) existingTask.setDueDate(dto.getDueDate());
+        if(dto.getTitle() != null) existingTask.setTitle(dto.getTitle());
 
         return taskRepository.save(existingTask);
     }

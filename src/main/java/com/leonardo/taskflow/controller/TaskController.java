@@ -1,6 +1,7 @@
 package com.leonardo.taskflow.controller;
 
 import com.leonardo.taskflow.dto.TaskDTO;
+import com.leonardo.taskflow.dto.TaskUpdateDTO;
 import com.leonardo.taskflow.model.Task;
 import com.leonardo.taskflow.service.TaskService;
 import jakarta.validation.Valid;
@@ -41,6 +42,12 @@ public class TaskController {
         task.setId(id);
         Task entity = taskService.update(task);
         return new TaskDTO(entity);
+    }
+
+    @PatchMapping("/{id}")
+    public TaskDTO partialUpdate(@PathVariable Long id, @RequestBody TaskUpdateDTO dto){
+        Task task = taskService.partialUpdate(id, dto);
+        return new TaskDTO(task);
     }
 
     @DeleteMapping("/{id}")
