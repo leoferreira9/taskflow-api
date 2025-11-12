@@ -2,7 +2,9 @@ package com.leonardo.taskflow.service;
 
 import com.leonardo.taskflow.exception.EntityNotFoundException;
 import com.leonardo.taskflow.model.Task;
+import com.leonardo.taskflow.model.User;
 import com.leonardo.taskflow.repository.TaskRepository;
+import com.leonardo.taskflow.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,14 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public Task create(Task task){
+        User user = userRepository
+                .findById(task.getUser().getId()).orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + task.getUser().getId()));
+
+        task.setUser(user);
         return taskRepository.save(task);
     }
 
