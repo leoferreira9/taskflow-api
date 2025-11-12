@@ -4,6 +4,7 @@ import com.leonardo.taskflow.model.Task;
 import com.leonardo.taskflow.model.TaskPriority;
 import com.leonardo.taskflow.model.TaskStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TaskDTO {
@@ -13,7 +14,7 @@ public class TaskDTO {
     private String description;
     private TaskStatus status;
     private TaskPriority priority;
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
     private UserDTO userDTO;
 
     public TaskDTO(Task task){
@@ -66,11 +67,11 @@ public class TaskDTO {
         this.priority = priority;
     }
 
-    public LocalDateTime getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 

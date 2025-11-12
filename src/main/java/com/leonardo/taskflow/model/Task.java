@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tasks")
@@ -26,7 +26,7 @@ public class Task {
     private TaskPriority priority;
 
     @FutureOrPresent
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -34,7 +34,7 @@ public class Task {
 
     public Task(){}
 
-    public Task(Long id, String title, String description, TaskStatus status, TaskPriority priority, LocalDateTime dueDate, User user) {
+    public Task(Long id, String title, String description, TaskStatus status, TaskPriority priority, LocalDate dueDate, User user) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -84,11 +84,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public LocalDateTime getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
