@@ -10,6 +10,8 @@ import com.leonardo.taskflow.service.TaskService;
 import com.leonardo.taskflow.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +60,12 @@ public class UserController {
     public List<UserDTO> findAll(){
         List<User> users = userService.findAll();
         return users.stream().map(UserDTO::new).toList();
+    }
+
+    @GetMapping("/paginated")
+    public Page<UserDTO> findAllPaginated(Pageable pageable){
+        Page<User> page = userService.findAllPaginated(pageable);
+        return page.map(UserDTO::new);
     }
 
     @PutMapping("/{id}")
