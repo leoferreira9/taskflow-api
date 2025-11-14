@@ -6,6 +6,8 @@ import com.leonardo.taskflow.model.Task;
 import com.leonardo.taskflow.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,12 @@ public class TaskController {
     public TaskDTO create(@RequestBody @Valid Task task){
         Task entity = taskService.create(task);
         return new TaskDTO(entity);
+    }
+
+    @GetMapping("/paginated")
+    public Page<TaskDTO> findAllPaginated(Pageable pageable){
+        Page<Task> page = taskService.findAllPaginated(pageable);
+        return page.map(TaskDTO::new);
     }
 
     @GetMapping("/{id}")
