@@ -3,6 +3,8 @@ package com.leonardo.taskflow.service;
 import com.leonardo.taskflow.dto.TaskUpdateDTO;
 import com.leonardo.taskflow.exception.EntityNotFoundException;
 import com.leonardo.taskflow.model.Task;
+import com.leonardo.taskflow.model.TaskPriority;
+import com.leonardo.taskflow.model.TaskStatus;
 import com.leonardo.taskflow.model.User;
 import com.leonardo.taskflow.repository.TaskRepository;
 import com.leonardo.taskflow.repository.UserRepository;
@@ -42,6 +44,21 @@ public class TaskService {
     }
 
     public Page<Task> findAllPaginated(Pageable pageable){
+        return taskRepository.findAll(pageable);
+    }
+
+    public Page<Task> filterTasks(TaskStatus status, TaskPriority priority, Long userId, Pageable pageable){
+
+        if(status != null && priority == null && userId == null) return taskRepository.findByStatus(status, pageable);
+        if(status == null && priority != null && userId == null) return taskRepository.findByPriority(priority, pageable);
+        if(status == null && priority == null && userId != null) return taskRepository.findByUserId(userId, pageable);
+
+        if(status != null && priority != null && userId == null) return taskRepository.findByStatusAndPriority(status, priority, pageable);
+        if(status != null && priority == null && userId != null) return taskRepository.findByStatusAndUserId(status, userId, pageable);
+        if(status == null && priority != null && userId != null) return taskRepository.findByPriorityAndUserId(priority, userId, pageable);
+
+        if(status != null && priority != null && userId != null) return taskRepository.findByStatusAndPriorityAndUserId(status, priority, userId, pageable);
+
         return taskRepository.findAll(pageable);
     }
 
