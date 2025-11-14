@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,6 +31,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
 
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
     public User(){}
 
     public User(Long id, String name, String email, String password, Role role, List<Task> tasks) {
@@ -39,6 +45,17 @@ public class User {
         this.password = password;
         this.role = role;
         this.tasks = tasks;
+    }
+
+    @PrePersist
+    private void onCreate(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onUpdate(){
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {

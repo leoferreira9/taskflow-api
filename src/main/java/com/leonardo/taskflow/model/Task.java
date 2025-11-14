@@ -5,6 +5,7 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -32,6 +33,11 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
     public Task(){}
 
     public Task(Long id, String title, String description, TaskStatus status, TaskPriority priority, LocalDate dueDate, User user) {
@@ -42,6 +48,17 @@ public class Task {
         this.priority = priority;
         this.dueDate = dueDate;
         this.user = user;
+    }
+
+    @PrePersist
+    private void onCreate(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onUpdate(){
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {
