@@ -8,6 +8,8 @@ import com.leonardo.taskflow.model.Task;
 import com.leonardo.taskflow.model.User;
 import com.leonardo.taskflow.service.TaskService;
 import com.leonardo.taskflow.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Users")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -27,6 +30,7 @@ public class UserController {
     @Autowired
     private TaskService taskService;
 
+    @Operation(summary = "Criar um novo usuário")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(@RequestBody @Valid User user){
@@ -34,6 +38,7 @@ public class UserController {
         return new UserDTO(entity);
     }
 
+    @Operation(summary = "Criar uma task vinculada a um usuário")
     @PostMapping("/{id}/tasks")
     public TaskDTO createTaskForUser(@PathVariable Long id, @RequestBody TaskCreateDTO taskCreateDTO){
         User user = userService.findById(id);
@@ -50,24 +55,28 @@ public class UserController {
         return new TaskDTO(savedTask);
     }
 
+    @Operation(summary = "Buscar usuário pelo ID")
     @GetMapping("/{id}")
     public UserDTO findById(@PathVariable Long id){
         User user = userService.findById(id);
         return new UserDTO(user);
     }
 
+    @Operation(summary = "Listar todos os usuários")
     @GetMapping
     public List<UserDTO> findAll(){
         List<User> users = userService.findAll();
         return users.stream().map(UserDTO::new).toList();
     }
 
+    @Operation(summary = "Listar usuários com paginação")
     @GetMapping("/paginated")
     public Page<UserDTO> findAllPaginated(Pageable pageable){
         Page<User> page = userService.findAllPaginated(pageable);
         return page.map(UserDTO::new);
     }
 
+    @Operation(summary = "Atualizar todos os dados do usuário")
     @PutMapping("/{id}")
     public UserDTO update(@PathVariable Long id, @RequestBody @Valid User user){
         user.setId(id);
@@ -75,12 +84,14 @@ public class UserController {
         return new UserDTO(entity);
     }
 
+    @Operation(summary = "Atualizar dados parciais do usuário")
     @PatchMapping("/{id}")
     public UserDTO partialUpdate(@PathVariable Long id, @RequestBody UserUpdateDTO dto){
         User entity = userService.partialUpdate(id, dto);
         return new UserDTO(entity);
     }
 
+    @Operation(summary = "Deletar usuário")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
